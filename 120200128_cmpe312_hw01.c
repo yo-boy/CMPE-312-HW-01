@@ -12,8 +12,9 @@ struct board{
     int arr[boardSize];
 };
 
-// this will keep track of turns,
-// I chose to use just an int because I don't need anything more and this makes it simpler
+//  this will keep track of turns,
+//  I chose to use just an int because-
+// I don't need anything more and this makes it simpler
 int player = 0;
 
 // this function prints a board nicely
@@ -28,13 +29,11 @@ int goodMove(struct board, int, int);
 int getRow();
 // a function for a game against the compute
 void playBot();
-
+// this function removes a number of matches from the chosen row
 void removeMatches(struct board* myBoard, int  index, int matches);
-
+// this function checks if any matches are left
 int matchesLeft(struct board* myBoard);
-
-void startGame();
-
+// this function returns the nimSum of the game
 int nimSum(struct board myBoard);
 
 
@@ -50,5 +49,3 @@ int main(){
     puts("hello");
     return 0;
 };
-
-
