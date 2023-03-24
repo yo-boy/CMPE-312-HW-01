@@ -165,7 +165,7 @@ void startGame(struct board* myBoard){
         // and print the board after the change
         showBoard(*myBoard);
         // we echo what the player did
-        printf("player %d removed %d matches from row %d\n", player + 1, num, row + 1)
+        printf("player %d removed %d matches from row %d\n", player + 1, num, row + 1);
         //then we flip to the other player's turn
         player = !player;
     }
