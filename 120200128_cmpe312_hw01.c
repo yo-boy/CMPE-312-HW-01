@@ -154,7 +154,7 @@ void startGame(struct board* myBoard){
         int num = -1;
         while (num < 1){
             printf("enter the number of matches to remove (at least 1): ");
-            scanf("%d", num);
+            scanf("%d", &num);
         }
         // we make sure that the player only takes the number of matches that is available or less
         if (num > myBoard->arr[row]){
@@ -173,3 +173,63 @@ void startGame(struct board* myBoard){
     printf("game over!\nplayer %d won!", !player);
 }
 
+//this function provides the game with the computer
+void playBot(struct board *myBoard){
+    //this being 0 means it's the player's turn
+    // and 1 means it's the bot's turn
+    int player = 0;
+
+    while (matchesLeft(myBoard)){
+        // print who's turn it is
+        if (player) {
+            printf("bot's turn\n");
+        } else {
+            printf("your turn\n");
+        }
+        if (!player) {
+            // player's turn
+            // we ask for the row then the number of matches
+            int row = getRow(*myBoard);
+            int num = -1;
+            while (num < 1) {
+                printf("enter the number of matches to remove (at least 1): ");
+                scanf("%d", num);
+            }
+            // we make sure the number of matches is available and then remove them
+            if (num > myBoard->arr[row]){
+                num = myBoard->arr[row];
+            }
+            removeMatches(myBoard, row, num);
+            // then we echo what the player did
+            printf("you removed %d matches from row %d\n", num, row+1);
+        } else {
+            // variables to hold the computer's next move
+            int row = 0;
+            int matches = 0;
+            // we loop through all of the possible moves and choose the last one that works
+            for (int i = 0; i < boardSize; i++) {
+                for (int j = 1; j <= myBoard->arr[i]; j++){
+                    // we check if the move is good and if so we assign it to our variables
+                    if (goodMove(*myBoard, row, matches)){
+                        row = i;
+                        matches = j;
+                    }
+                }
+            }
+            // carry out the computers move then echo the move
+            removeMatches(myBoard, row, matches);
+            printf("bot removed %d matches from row %d\n", matches, row);
+        }
+        // we print the board again after both the player's and bot's turns
+        showBoard(*myBoard);
+        // we switch to the next turn
+        player = !player;
+    }
+    // after we are out of matches we print the winner
+    printf("game over!\n");
+    if (player){
+        printf("you won!\n\n");
+    } else {
+        printf("the Bot won!\n\n");
+    }
+}
