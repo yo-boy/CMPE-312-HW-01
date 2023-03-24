@@ -12,10 +12,12 @@ struct board{
     int arr[boardSize];
 };
 
-//  this will keep track of turns,
-//  I chose to use just an int because-
-// I don't need anything more and this makes it simpler
-int player = 0;
+/*
+I will not use a structure to keep track of players turns,
+since I find it simpler and easier to just use a boolean in the-
+game functions and players don't need any data beyond-
+keeping track of which turn it is
+*/
 
 // this function prints a board nicely
 void showBoard(struct board myBoard);
@@ -26,7 +28,7 @@ void menu();
 // this function decides if a move is correct or not for the bot
 int goodMove(struct board, int index, int matches);
 // this function asks the user for a Row to take from
-int getRow();
+int getRow(struct board myBoard);
 // a function for a game against the compute
 void playBot(struct board *myBoard);
 // this function removes a number of matches from the chosen row
@@ -41,13 +43,13 @@ void generateBoard(struct board* myBoard){
         // put the number of matchsticks depending on which row it is
         myBoard->arr[i] = (2 * i) + 1;
     }
-};
+}
 
 int main(){
     puts("hello");
     menu();
     return 0;
-};
+}
 
 void menu(){
     // this variable tracks if the game is still being played
@@ -101,4 +103,50 @@ void showBoard(struct board myBoard){
         //put each row on a different line
         printf("\n");
     }
+}
+
+int getRow(struct board myBoard){
+    //we put a number that will always be bigger than the number of rows
+    int row = boardSize + 1;
+    //we keep asking for a row number until we get a non empty valid row
+    while (row > boardSize || row < 1 || myBoard.arr[row] == 0){
+        printf("enter which row you want to take from (has to be the number of a non empty row): ");
+        scanf("%d", row);
+    }
+    // then we return it -1 because the row numbers dosplayed are just visual
+    // and are bigger by 1 than the real index
+    return row - 1;
+}
+
+void removeMatches(struct board* myBoard, int  index, int matches){
+    myBoard->arr[index] -= matches;
+    //we make sure the the number of matches in the row is at least 0
+    if (myBoard->arr[index] < 0){
+        myBoard->arr[index] = 0;
+    }
+}
+
+int matchesLeft(struct board* myBoard){
+    int sum = 0;
+    for (int i = 0; i < boardSize && sum == 0; i++)
+        sum += myBoard->arr[i];
+    return sum;
+}
+
+int nimSum(struct board myBoard){
+    int sum = 0;
+    for (int i = 0; i < boardSize; i++){
+        sum ^= myBoard.arr[i];
+    }
+    return sum;
+}
+
+void startGame(struct board* myBoard){
+    // this will keep track of which player's turn it is
+    int player = 0;
+
+    while(matchesLeft(myBoard)){
+
+    }
+
 }
