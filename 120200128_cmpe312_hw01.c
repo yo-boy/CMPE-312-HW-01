@@ -146,7 +146,30 @@ void startGame(struct board* myBoard){
     int player = 0;
 
     while(matchesLeft(myBoard)){
-
+        // if the player variable is 0 then it is player 1's turn if false then it is player 2's turn
+        printf("player %d's turn\n", player + 1);
+        //we get which row the player wants to take from
+        int row = getRow(*myBoard);
+        // we get the number of matches the player wants to take which must be 1 or more
+        int num = -1;
+        while (num < 1){
+            printf("enter the number of matches to remove (at least 1): ");
+            scanf("%d", num);
+        }
+        // we make sure that the player only takes the number of matches that is available or less
+        if (num > myBoard->arr[row]){
+            num = myBoard->arr[row];
+        }
+        // we remove the matches
+        removeMatches(myBoard, row, num);
+        // and print the board after the change
+        showBoard(*myBoard);
+        // we echo what the player did
+        printf("player %d removed %d matches from row %d\n", player + 1, num, row + 1)
+        //then we flip to the other player's turn
+        player = !player;
     }
-
+    // after all the matches are taken we print that the game ended and which player won
+    printf("game over!\nplayer %d won!", !player);
 }
+
