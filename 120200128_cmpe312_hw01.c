@@ -111,7 +111,7 @@ int getRow(struct board myBoard){
     //we keep asking for a row number until we get a non empty valid row
     while (row > boardSize || row < 1 || myBoard.arr[row] == 0){
         printf("enter which row you want to take from (has to be the number of a non empty row): ");
-        scanf("%d", row);
+        scanf("%d", &row);
     }
     // then we return it -1 because the row numbers dosplayed are just visual
     // and are bigger by 1 than the real index
@@ -193,7 +193,7 @@ void playBot(struct board *myBoard){
             int num = -1;
             while (num < 1) {
                 printf("enter the number of matches to remove (at least 1): ");
-                scanf("%d", num);
+                scanf("%d", &num);
             }
             // we make sure the number of matches is available and then remove them
             if (num > myBoard->arr[row]){
