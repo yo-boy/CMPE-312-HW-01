@@ -205,12 +205,12 @@ void playBot(struct board *myBoard){
         } else {
             // variables to hold the computer's next move
             int row = 0;
-            int matches = 0;
+            int matches = 1;
             // we loop through all of the possible moves and choose the last one that works
             for (int i = 0; i < boardSize; i++) {
                 for (int j = 1; j <= myBoard->arr[i]; j++){
                     // we check if the move is good and if so we assign it to our variables
-                    if (goodMove(*myBoard, row, matches)){
+                    if (!goodMove(*myBoard, i, j)){
                         row = i;
                         matches = j;
                     }
@@ -218,7 +218,7 @@ void playBot(struct board *myBoard){
             }
             // carry out the computers move then echo the move
             removeMatches(myBoard, row, matches);
-            printf("bot removed %d matches from row %d\n", matches, row);
+            printf("bot removed %d matches from row %d\n", matches, row+1);
         }
         // we print the board again after both the player's and bot's turns
         showBoard(*myBoard);
@@ -227,7 +227,7 @@ void playBot(struct board *myBoard){
     }
     // after we are out of matches we print the winner
     printf("game over!\n");
-    if (player){
+    if (!player){
         printf("you won!\n\n");
     } else {
         printf("the Bot won!\n\n");
@@ -235,6 +235,8 @@ void playBot(struct board *myBoard){
 }
 
 int goodMove(struct board myBoard, int index, int matches){
+    // we test the move on a copy of the board and
+    //if the nimSum is equal to zero that means it's a good move
     myBoard.arr[index] -= matches;
     return nimSum(myBoard) == 0;
 }
