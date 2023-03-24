@@ -109,7 +109,7 @@ int getRow(struct board myBoard){
     //we put a number that will always be bigger than the number of rows
     int row = boardSize + 1;
     //we keep asking for a row number until we get a non empty valid row
-    while (row > boardSize || row < 1 || myBoard.arr[row] == 0){
+    while (row > boardSize || row < 1 || myBoard.arr[row-1] == 0){
         printf("enter which row you want to take from (has to be the number of a non empty row): ");
         scanf("%d", &row);
     }
@@ -170,7 +170,7 @@ void startGame(struct board* myBoard){
         player = !player;
     }
     // after all the matches are taken we print that the game ended and which player won
-    printf("game over!\nplayer %d won!", !player);
+    printf("game over!\nplayer %d won!\n\n", !player);
 }
 
 //this function provides the game with the computer
@@ -232,4 +232,9 @@ void playBot(struct board *myBoard){
     } else {
         printf("the Bot won!\n\n");
     }
+}
+
+int goodMove(struct board myBoard, int index, int matches){
+    myBoard.arr[index] -= matches;
+    return nimSum(myBoard) == 0;
 }
